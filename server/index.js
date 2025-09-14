@@ -14,9 +14,6 @@ const seedDatabase = require('./seed');
 
 const app = express();
 
-const MONGO_URI = process.env.MONGO_URI;
-const PORT = process.env.PORT || 5000;
-
 
 // Security middleware
 app.use(helmet());
@@ -64,24 +61,24 @@ app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
 });
 
-const startServer = async () => {
+async function startServer() {
   try {
-    await mongoose.connect(MONGO_URI, {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/movie_reviews', {
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true
     });
-    console.log("✅ Connected to MongoDB Atlas");
+    console.log('✅ MongoDB connected');
 
-    app.listen(PORT, () => {
-      console.log(`✅ Server running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error("❌ MongoDB connection error:", error.message);
-    process.exit(1);
+    app.listen(5000, () => console.log("Server running on port 5000"));
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
   }
-};
+}
 
 startServer();
+
+
+
 
 
 
