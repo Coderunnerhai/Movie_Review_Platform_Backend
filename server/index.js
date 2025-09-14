@@ -14,6 +14,9 @@ const seedDatabase = require('./seed');
 
 const app = express();
 
+const MONGO_URI = process.env.MONGO_URI;
+const PORT = process.env.PORT || 5000;
+
 
 // Security middleware
 app.use(helmet());
